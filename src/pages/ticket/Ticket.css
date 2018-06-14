@@ -1,0 +1,17 @@
+.TicketPage {
+    display: flex;
+    flex: auto;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.TicketListContainer {
+}
+
+.TicketContainer {
+    width: 300px;
+    border: solid 1px black;
+    margin: auto;
+}
+

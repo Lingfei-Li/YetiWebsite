@@ -1,0 +1,24 @@
+{
+  "name": "yeti",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "aws-amplify": "^0.4.4",
+    "aws-amplify-react": "^0.1.50",
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "react": "^16.4.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy-dev-lingfeil": "aws s3 cp build s3://dev-lingfeil.yetisnowticket.com --recursive",
+    "deploy-beta": "aws s3 cp build s3://beta.yetisnowticket.com --recursive --acl public-read",
+    "deploy-prod": "aws s3 cp build s3://yetisnowticket.com --recursive --acl public-read",
+    "test": "react-scripts test --env=jsdom",
+    "eject-are-you-sure": "react-scripts eject"
+  }
+}
