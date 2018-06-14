@@ -1,6 +1,23 @@
 import React, {Component} from "react";
+import {Button, DropdownButton, MenuItem} from "react-bootstrap";
 
 class Ticket extends Component {
+
+  state = {
+    purchaseQuantity: 1
+  };
+
+
+  selectQuantityForTicket(event) {
+    this.setState(
+      {purchaseQuantity: event}
+    )
+  }
+
+  addToCart() {
+    const quant = this.state.purchaseQuantity;
+    console.log(`Adding ${quant} "${this.props.ticket.ticketType}" to cart`);
+  }
 
   render() {
 
@@ -20,6 +37,29 @@ class Ticket extends Component {
         <div>
           {ticket.distributionLocation}
         </div>
+
+
+        <DropdownButton
+          bsStyle="default"
+          title={this.state.purchaseQuantity}
+          id="dropdown-basic"
+          onSelect={event => this.selectQuantityForTicket(event)}
+        >
+          <MenuItem eventKey="1">1</MenuItem>
+          <MenuItem eventKey="2">2</MenuItem>
+          <MenuItem eventKey="3">3</MenuItem>
+          <MenuItem eventKey="4">4</MenuItem>
+          <MenuItem eventKey="5">5</MenuItem>
+        </DropdownButton>
+
+        <Button
+          bsStyle="default"
+          onClick={() => this.addToCart()}
+        >
+          Add To Cart
+        </Button>
+
+
       </div>
     );
   }

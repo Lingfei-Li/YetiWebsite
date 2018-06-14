@@ -1,8 +1,10 @@
 import React, {Component} from "react";
-import logo from "./logo.svg";
+import himalaya from "./resources/himalaya.png";
 import "./App.css";
 import Amplify from "aws-amplify";
 import TicketPage from "./pages/ticket/TicketPage";
+import {Link, Route} from "react-router-dom";
+import HelloPage from "./pages/hello/HelloPage";
 
 class App extends Component {
 
@@ -36,16 +38,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <nav className="navbar navbar-default navbar-static-top">
+          <div className="container-fluid">
+            <div className="navbar-header App-navbar-header">
+              <a className="navbar-brand" href="/home">
+                <img alt="Yeti" src={himalaya} className="App-logo"/>
+              </a>
+            </div>
+          </div>
+        </nav>
 
-        <TicketPage />
+        <nav>
+          <Link to="/home">Home</Link>
+          <Link to="/hello">Hello</Link>
+        </nav>
 
+        <div>
+          <Route path="/home" component={TicketPage} />
+          <Route path="/hello" component={HelloPage} />
+        </div>
       </div>
     );
   }
