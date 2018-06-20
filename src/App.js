@@ -5,6 +5,7 @@ import Amplify from "aws-amplify";
 import TicketPage from "./pages/ticket/TicketPage";
 import {Link, Route} from "react-router-dom";
 import HelloPage from "./pages/hello/HelloPage";
+import Header from "./pages/header/Header";
 
 class App extends Component {
 
@@ -47,6 +48,8 @@ class App extends Component {
             </div>
           </div>
         </nav>
+
+        <Header />
 
         <nav>
           <Link to="/home">Home</Link>

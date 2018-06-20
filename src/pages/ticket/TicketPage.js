@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import "./Ticket.css";
 import {API} from "aws-amplify";
 import TicketList from "./components/TicketList";
+import {bindActionCreators} from "redux";
+import * as actions from "../../redux/actions";
+import {connect} from "react-redux";
 
 class TicketPage extends Component {
 
@@ -45,4 +48,14 @@ class TicketPage extends Component {
   }
 }
 
-export default TicketPage;
+const mapStateToProps = state => {
+  return {
+    cartItems: state.cartItems
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(actions, dispatch);
+};
+
+export default connect( mapStateToProps, mapDispatchToProps)(TicketPage);

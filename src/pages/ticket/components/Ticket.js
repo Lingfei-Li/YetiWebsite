@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import {Button, DropdownButton, MenuItem} from "react-bootstrap";
+import {bindActionCreators} from "redux";
+import * as actions from "../../../redux/actions";
+import {connect} from "react-redux";
 
 class Ticket extends Component {
 
@@ -20,6 +23,8 @@ class Ticket extends Component {
   }
 
   render() {
+
+    console.log(this.props);
 
     const ticket = this.props.ticket;
     if (!ticket) {
@@ -54,7 +59,7 @@ class Ticket extends Component {
 
         <Button
           bsStyle="default"
-          onClick={() => this.addToCart()}
+          onClick={() => this.props.addToCart(ticket)}
         >
           Add To Cart
         </Button>
@@ -66,4 +71,14 @@ class Ticket extends Component {
 
 }
 
-export default Ticket;
+const mapStateToProps = state => {
+  return {
+    cartItems: state.cartItems
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(actions, dispatch);
+};
+
+export default connect( mapStateToProps, mapDispatchToProps)(Ticket);
