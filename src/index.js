@@ -1,6 +1,6 @@
 import React from 'react';
 import { PersistGate } from 'redux-persist/integration/react'
-import {persistStore, persistCombineReducers} from 'redux-persist'
+import {persistStore, persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { render } from 'react-dom';
 import './index.css';
@@ -21,7 +21,7 @@ const persistConfig = {
   key: "root",
   storage
 };
-const rootReducer = persistCombineReducers(persistConfig, yetiApp);
+const rootReducer = persistReducer(persistConfig, yetiApp);
 const store = createStore(rootReducer, undefined);
 const persistor = persistStore(store, {});
 

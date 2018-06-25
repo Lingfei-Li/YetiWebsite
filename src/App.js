@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import himalaya from "./resources/himalaya.png";
 import "./App.css";
 import Amplify from "aws-amplify";
-import TicketPage from "./pages/ticket/TicketPage";
+import TicketPage from "./pages/ticket/Ticket";
 import {Link, Route} from "react-router-dom";
-import HelloPage from "./pages/hello/HelloPage";
 import Header from "./pages/header/Header";
+import Cart from "./pages/cart/Cart";
+import Order from "./pages/order/Order";
 
 class App extends Component {
 
@@ -39,26 +39,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <nav className="navbar navbar-default navbar-static-top">
-          <div className="container-fluid">
-            <div className="navbar-header App-navbar-header">
-              <a className="navbar-brand" href="/home">
-                <img alt="Yeti" src={himalaya} className="App-logo"/>
-              </a>
-            </div>
-          </div>
-        </nav>
-
         <Header />
-
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/hello">Hello</Link>
-        </nav>
-
         <div>
           <Route path="/home" component={TicketPage} />
-          <Route path="/hello" component={HelloPage} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/order" component={Order} />
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import "./Ticket.css";
+import FontAwesome from 'react-fontawesome'
+import "./style.css";
 import {API} from "aws-amplify";
 import TicketList from "./components/TicketList";
 import {bindActionCreators} from "redux";
@@ -43,6 +44,11 @@ class TicketPage extends Component {
     return (
       <div className="TicketPage">
         <TicketList tickets={this.state.tickets} />
+        FontAwesome
+        <FontAwesome
+          name="rocket"
+          size="lg"
+        />
       </div>
     );
   }

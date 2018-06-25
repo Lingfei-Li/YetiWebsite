@@ -1,30 +1,33 @@
-import { ADD_TO_CART, NUKE_CART } from './actions'
+import { ADD_TO_CART, OPEN_PAGE, NUKE_CART, NUKE_REDUX_STORE } from './actions'
 
 const initialState = {
-  cartItems: []
+  cartItems: [],
+  activePage: null
 };
 
 const initialReducer = (state = initialState, action) => {
   console.log(`state: ${JSON.stringify(state, null, 2)}`);
   switch (action.type) {
     case ADD_TO_CART:
-      const ticketToAdd = action.ticketToAdd;
       return Object.assign({}, state, {
         cartItems: [
           ...state.cartItems,
-          ticketToAdd
+          action.ticketToAdd
         ]
+      });
+    case OPEN_PAGE:
+      return Object.assign({}, state, {
+        activePage: action.pageName
       });
     case NUKE_CART:
       return Object.assign({}, state, {
-        cartItems: [
-        ]
+        cartItems: []
       });
+    case NUKE_REDUX_STORE:
+      return Object.assign({}, initialState);
     default:
       return state;
   }
 };
 
-export default {
-  initialReducer
-}
+export default initialReducer;
