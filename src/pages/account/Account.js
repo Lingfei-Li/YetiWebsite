@@ -1,16 +1,18 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
+import "./style.css";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
+import {connect} from "react-redux";
 
-class Order extends Component {
+class Account extends Component {
 
   render() {
+
     return (
-      <div>
-        This is the order page
+      <div className="Account">
+        This is account page
       </div>
-    )
+    );
   }
 }
 
@@ -23,4 +25,4 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(actions, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Order);
+export default connect( mapStateToProps, mapDispatchToProps)(Account);

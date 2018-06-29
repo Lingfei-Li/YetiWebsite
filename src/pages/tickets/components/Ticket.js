@@ -3,6 +3,7 @@ import {Button, DropdownButton, MenuItem} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
 import {connect} from "react-redux";
+import moment from 'moment';
 
 class Ticket extends Component {
 
@@ -17,15 +18,18 @@ class Ticket extends Component {
     )
   }
 
-  addToCart() {
-    const quant = this.state.purchaseQuantity;
-    console.log(`Adding ${quant} "${this.props.ticket.ticketType}" to cart`);
+  addTicketToCartItem(ticket) {
+    const cartItem = {
+      quantity: this.state.purchaseQuantity,
+      itemId: ticket.ticketId,
+      unitPrice: ticket.unitPrice, // Adding unit price for easier calculation of total payment
+      itemSnapshot: Object.assign({}, ticket)
+    };
+    console.log(`Adding ${JSON.stringify(cartItem, null, 2)} to cart`);
+    this.props.addToCart(cartItem);
   }
 
   render() {
-
-    console.log(this.props);
-
     const ticket = this.props.ticket;
     if (!ticket) {
       return null;
@@ -40,9 +44,17 @@ class Ticket extends Component {
           {ticket.ticketQuantity}
         </div>
         <div>
+          ${ticket.unitPrice}
+        </div>
+        <div>
           {ticket.distributionLocation}
         </div>
-
+        <div>
+          {moment.unix(ticket.distributionStartDateTime).format("h:mm:ss a M/D (dddd)")}
+        </div>
+        <div>
+          {moment.unix(ticket.distributionEndDateTime).format("h:mm:ss a M/D (dddd)")}
+        </div>
 
         <DropdownButton
           bsStyle="default"
@@ -59,7 +71,7 @@ class Ticket extends Component {
 
         <Button
           bsStyle="default"
-          onClick={() => this.props.addToCart(ticket)}
+          onClick={() => this.addTicketToCartItem(ticket)}
         >
           Add To Cart
         </Button>

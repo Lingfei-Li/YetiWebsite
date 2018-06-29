@@ -11,8 +11,6 @@ class Header extends Component {
 
   render() {
 
-    console.log("current path: " + this.props.location.pathname);
-
     const routeName = this.props.location.pathname;
 
     return (
@@ -26,13 +24,12 @@ class Header extends Component {
 
           <div className="" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li className={classNames({'active': routeName === "/home"})}><a href="/home">Tickets<span className="sr-only">(current)</span></a></li>
-              <li className={classNames({'active': routeName === "/order"})}><a href="/order">Orders<span className="sr-only">(current)</span></a></li>
+              <li className={classNames({'active': routeName === "/tickets"})}><a href="/tickets">Tickets<span className="sr-only">(current)</span></a></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              <li>
-                <CartIcon />
-              </li>
+              <li className={classNames({'active': routeName === "/account"})}><a href="/account">Account<span className="sr-only">(current)</span></a></li>
+              <li className={classNames({'active': routeName === "/orders"})}><a href="/orders">Orders<span className="sr-only">(current)</span></a></li>
+              <li className={classNames({'active': routeName === "/cart"})}><CartIcon /></li>
             </ul>
           </div>
         </div>
@@ -42,7 +39,6 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("Header component: state: \n" + JSON.stringify(state, null, 2));
   return {
     cartItems: state.cartItems,
     activePage: state.activePage

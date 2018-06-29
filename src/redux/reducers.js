@@ -1,12 +1,14 @@
-import { ADD_TO_CART, OPEN_PAGE, NUKE_CART, NUKE_REDUX_STORE } from './actions'
+import { ADD_TO_CART, PUBLISH_CART_MESSAGE, OPEN_PAGE, NUKE_CART, NUKE_REDUX_STORE } from './actions'
 
 const initialState = {
+  isSignedIn: false,
   cartItems: [],
-  activePage: null
+  activePage: null,
+  cartMessageContent: null,
+  cartMessageType: "info",
 };
 
 const initialReducer = (state = initialState, action) => {
-  console.log(`state: ${JSON.stringify(state, null, 2)}`);
   switch (action.type) {
     case ADD_TO_CART:
       return Object.assign({}, state, {
@@ -14,6 +16,11 @@ const initialReducer = (state = initialState, action) => {
           ...state.cartItems,
           action.ticketToAdd
         ]
+      });
+    case PUBLISH_CART_MESSAGE:
+      return Object.assign({}, state, {
+        cartMessageContent: action.msgContent,
+        cartMessageType: action.msgType
       });
     case OPEN_PAGE:
       return Object.assign({}, state, {

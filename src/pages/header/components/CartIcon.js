@@ -6,6 +6,14 @@ import {connect} from "react-redux";
 
 class CartIcon extends Component {
 
+  getCartItemsCount() {
+    if (this.props.cartItems.length === 0) {
+      return null;
+    } else {
+      return <div className="cartIconItemsCount">{this.props.cartItems.length}</div>;
+    }
+  }
+
   render() {
     return (
     <a href="/cart" className="cartIcon">
@@ -13,6 +21,7 @@ class CartIcon extends Component {
         icon={faShoppingCart}
         size="lg"
       />
+      { this.getCartItemsCount() }
     </a>
     );
   }

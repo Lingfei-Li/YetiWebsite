@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import "./App.css";
 import Amplify from "aws-amplify";
-import TicketPage from "./pages/ticket/Ticket";
-import {Link, Route} from "react-router-dom";
+import Tickets from "./pages/tickets/Tickets";
+import {Redirect, Route} from "react-router-dom";
 import Header from "./pages/header/Header";
 import Cart from "./pages/cart/Cart";
-import Order from "./pages/order/Order";
+import Orders from "./pages/orders/Orders";
+import Account from "./pages/account/Account";
 
 class App extends Component {
 
@@ -15,7 +16,7 @@ class App extends Component {
     Amplify.configure({
       Auth: {
         // REQUIRED - Amazon Cognito Identity Pool ID
-        identityPoolId: 'us-west-2:d80cfb6a-63a0-42b0-8d7e-d1ae9c4cd71f',
+        identityPoolId: 'us-west-2:4508c8af-8c22-45b9-9f89-99d7236d5443',
         // REQUIRED - Amazon Cognito Region
         region: 'us-west-2',
         // OPTIONAL - Amazon Cognito User Pool ID
@@ -26,13 +27,20 @@ class App extends Component {
       API: {
         endpoints: [
           {
+            region: "us-west-2",
+            service: "execute-api",
             name: "ProjectYetiTicketService",
             endpoint: "https://jfqrm8l4aj.execute-api.us-west-2.amazonaws.com/dev-lingfeil/tickets"
+          },
+          {
+            region: "us-west-2",
+            service: "execute-api",
+            name: "ProjectYetiOrderService",
+            endpoint: "https://gzcp4d3yzl.execute-api.us-west-2.amazonaws.com/dev-lingfeil/orders"
           }
         ]
       }
     });
-
   }
 
 
@@ -41,9 +49,13 @@ class App extends Component {
       <div className="App">
         <Header />
         <div>
-          <Route path="/home" component={TicketPage} />
+          <Route exact path="/" render={() => (
+            <Redirect to="/tickets"/>
+          )}/>
+          <Route path="/tickets" component={Tickets} />
           <Route path="/cart" component={Cart} />
-          <Route path="/order" component={Order} />
+          <Route path="/orders" component={Orders} />
+          <Route path="/account" component={Account} />
         </div>
       </div>
     );
