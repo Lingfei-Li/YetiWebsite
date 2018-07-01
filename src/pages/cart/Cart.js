@@ -3,7 +3,7 @@ import "./style.css";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {connect} from "react-redux";
-import InfoBox from "./components/InfoBox";
+import InfoBox from "../components/InfoBox";
 import PlaceOrderButtonContainer from "./components/PlaceOrderButtonContainer";
 import CartItemContainer from "./components/CartItemContainer";
 import {Button} from "react-bootstrap";
@@ -20,22 +20,22 @@ class Cart extends Component {
 
   componentWillMount() {
     // Clear the message box since redux is persisted
-    this.props.publishCartMessage("", "hidden");
+    this.props.publishCartInfoBoxMessage("", "hidden");
 
     console.log(JSON.stringify(this.props.cartItems, null, 2));
-    const isCartEmpty = this.props.cartItems === undefined || this.props.cartItems === null || this.props.cartItems.length <= 0;
+    const isCartEmpty = this.props.cartItems === undefined || this.props.cartItems === null || Object.keys(this.props.cartItems).length <= 0;
     this.setState({isCartEmpty});
 
     if (isCartEmpty) {
-      this.props.publishCartMessage(
-        "Your cart is empty. Get some tickets!",
+      this.props.publishCartInfoBoxMessage(
+        "Your cart is empty. &nbsp <a href='/tickets'>Get some tickets here!</a>",
         "info"
       );
     }
   }
 
   emptyCart() {
-    this.props.publishCartMessage(
+    this.props.publishCartInfoBoxMessage(
       "Cart Emptied",
       "info"
     );
@@ -48,7 +48,7 @@ class Cart extends Component {
     const placeOrderButtonContainer = this.state.isCartEmpty ? null : (<PlaceOrderButtonContainer/>);
     return (
       <div className="cart">
-        <InfoBox type={this.props.cartMessageType} message={this.props.cartMessageContent}/>
+        <InfoBox type={this.props.cartInfoBoxMessageType} message={this.props.cartInfoBoxMessageContent}/>
 
         {cartItemComponents}
 
@@ -65,8 +65,8 @@ class Cart extends Component {
 const mapStateToProps = state => {
   return {
     cartItems: state.cartItems,
-    cartMessageContent: state.cartMessageContent,
-    cartMessageType: state.cartMessageType,
+    cartInfoBoxMessageContent: state.cartInfoBoxMessageContent,
+    cartInfoBoxMessageType: state.cartInfoBoxMessageType,
   }
 };
 

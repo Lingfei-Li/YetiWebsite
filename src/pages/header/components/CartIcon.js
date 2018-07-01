@@ -6,22 +6,28 @@ import {connect} from "react-redux";
 
 class CartIcon extends Component {
 
-  getCartItemsCount() {
-    if (this.props.cartItems.length === 0) {
+  isCartEmpty() {
+    const cartItems = this.props.cartItems;
+    return cartItems === undefined || cartItems === null || Object.keys(cartItems).length === 0;
+  }
+
+  getCartItemsCountText() {
+    if (this.isCartEmpty()) {
       return null;
     } else {
-      return <div className="cartIconItemsCount">{this.props.cartItems.length}</div>;
+      return <div className="cartIconItemsCount">{Object.keys(this.props.cartItems).length}</div>;
     }
   }
 
   render() {
     return (
-    <a href="/cart" className="cartIcon">
+    <a href="/cart" className="cartIconLink">
       <FontAwesomeIcon
         icon={faShoppingCart}
         size="lg"
+        color={this.isCartEmpty() ? null : "#00699D"}
       />
-      { this.getCartItemsCount() }
+      { this.getCartItemsCountText() }
     </a>
     );
   }

@@ -14,7 +14,7 @@ class Ticket extends Component {
 
   selectQuantityForTicket(event) {
     this.setState(
-      {purchaseQuantity: event}
+      {purchaseQuantity: parseInt(event)}
     )
   }
 
@@ -27,6 +27,28 @@ class Ticket extends Component {
     };
     console.log(`Adding ${JSON.stringify(cartItem, null, 2)} to cart`);
     this.props.addToCart(cartItem);
+
+    this.props.publishTicketsInfoBoxMessage("Ticket added to cart. &nbsp <a href='/cart'><b>Go to cart</b></a>", "success");
+  }
+
+  getAvailableQuantity() {
+    if (this.props.reservationQuantity === undefined || this.props.reservationQuantity === null) {
+      return "Loading ticket availability...";
+    } else {
+      if (Number.isInteger(this.props.ticket.ticketQuantity) && Number.isInteger(this.props.reservationQuantity)) {
+        return (
+          <div>
+            {parseInt(this.props.ticket.ticketQuantity, 10) - parseInt(this.props.reservationQuantity, 10)} tickets left
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            Oops...failed to load ticket availability
+          </div>
+        );
+      }
+    }
   }
 
   render() {
@@ -36,24 +58,22 @@ class Ticket extends Component {
     }
 
     return (
-      <div className="TicketContainer" key={ticket.ticketId}>
+      <div className="ticket" key={ticket.ticketId}>
         <div>
           {ticket.ticketType}
         </div>
-        <div>
-          {ticket.ticketQuantity}
-        </div>
+        { this.getAvailableQuantity() }
         <div>
           ${ticket.unitPrice}
         </div>
         <div>
-          {ticket.distributionLocation}
+          Pick up location: {ticket.distributionLocation}
         </div>
         <div>
-          {moment.unix(ticket.distributionStartDateTime).format("h:mm:ss a M/D (dddd)")}
+          Pick up start time: {moment.unix(ticket.distributionStartDateTime).format("h:mm:ss a M/D (dddd)")}
         </div>
         <div>
-          {moment.unix(ticket.distributionEndDateTime).format("h:mm:ss a M/D (dddd)")}
+          Pick up end time: {moment.unix(ticket.distributionEndDateTime).format("h:mm:ss a M/D (dddd)")}
         </div>
 
         <DropdownButton

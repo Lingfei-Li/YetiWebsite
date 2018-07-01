@@ -6,15 +6,16 @@ class TicketList extends Component {
   render() {
 
     const tickets = this.props.tickets;
+    const reservationQuantity = this.props.reservationQuantity;
 
     if (!tickets) {
       return null;
     }
 
-    const ticketsView = tickets.map(t => <Ticket ticket={t} key={t.ticketId}/>);
+    const ticketsView = tickets.map(t => <Ticket ticket={t} reservationQuantity={reservationQuantity[t.ticketId]} key={t.ticketId}/>);
 
     return (
-      <div className="TicketListContainer">
+      <div className="ticketList">
         {ticketsView}
       </div>
     );

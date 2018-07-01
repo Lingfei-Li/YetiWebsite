@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import "../style.css";
+import "./style.css";
 import {bindActionCreators} from "redux";
-import * as actions from "../../../redux/actions";
+import * as actions from "../../redux/actions";
 import classNames from 'classnames';
 import {connect} from "react-redux";
 
@@ -10,7 +10,7 @@ class InfoBox extends Component {
   getBoxClassName(content, type) {
     if (type === null) return '';
     return  classNames({
-      cartMessageInfoBox: true,
+      infoBox: true,
       alert: true,
       hidden: type === "hidden" || !content || content === "",
       'alert-success': type === "success",
@@ -21,10 +21,11 @@ class InfoBox extends Component {
   }
 
   render() {
+    const contentInHtml = {
+      __html: this.props.message
+    };
     return (
-      <div className={this.getBoxClassName(this.props.message, this.props.type)}>
-        {this.props.message}
-      </div>
+      <div className={this.getBoxClassName(this.props.message, this.props.type)} dangerouslySetInnerHTML={contentInHtml} />
     );
   }
 }

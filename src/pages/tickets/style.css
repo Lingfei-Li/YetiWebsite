@@ -1,17 +1,19 @@
-.TicketsPage {
+.ticketsPage {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-content: center;
-    text-align: center;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
-.TicketListContainer {
+.ticketList {
     display: flex;
     flex-direction: column;
     align-items: stretch;
 }
 
-.TicketContainer {
+.ticket {
     display: flex;
     flex: 1;
     flex-basis: auto; /* default value */
