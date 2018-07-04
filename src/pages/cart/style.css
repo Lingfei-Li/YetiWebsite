@@ -8,6 +8,31 @@
 }
 
 .placeOrderButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signInSignUpContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.placeOrderButtonSeparator {
+    height: 50px;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 0 10px;
+}
+
+.signInSignUpContainer a {
+    display: flex;
+    margin-left: 5px
+}
+
+.placeOrderInputContainer {
     padding: 20px;
     min-height: 100px;
     width: 100%;
@@ -15,10 +40,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.placeOrderButton{
-    margin: 10px;
 }
 
 .cartMessageInfoBox {

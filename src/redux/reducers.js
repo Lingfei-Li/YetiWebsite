@@ -1,13 +1,19 @@
-import { ADD_TO_CART, PUBLISH_CART_INFO_BOX_MESSAGE, PUBLISH_TICKETS_INFO_BOX_MESSAGE, OPEN_PAGE, NUKE_CART, NUKE_REDUX_STORE } from './actions'
+import {
+  ADD_TO_CART, PUBLISH_CART_INFO_BOX_MESSAGE, PUBLISH_TICKETS_INFO_BOX_MESSAGE, OPEN_PAGE, OPEN_SIGN_IN_MODAL, OPEN_SIGN_UP_MODAL, HIDE_SIGN_IN_MODAL, HIDE_SIGN_UP_MODAL,
+  UPDATE_USERNAME, NUKE_CART, NUKE_REDUX_STORE, CONFIRM_SIGN_IN, SIGN_OUT
+} from './actions'
 
 const initialState = {
   isSignedIn: false,
+  username: "",
   cartItems: {},
   activePage: null,
   cartInfoBoxMessageContent: null,
   cartInfoBoxMessageType: "info",
   ticketsInfoBoxMessageContent: null,
   ticketsInfoBoxMessageType: "info",
+  showSignInModal: false,
+  showSignUpModal: false,
 };
 
 const initialReducer = (state = initialState, action) => {
@@ -47,6 +53,35 @@ const initialReducer = (state = initialState, action) => {
     case OPEN_PAGE:
       return Object.assign({}, state, {
         activePage: action.pageName
+      });
+    case SIGN_OUT:
+      return Object.assign({}, state, {
+        isSignedIn: false,
+        username: ""
+      });
+    case CONFIRM_SIGN_IN:
+      return Object.assign({}, state, {
+        isSignedIn: true
+      });
+    case UPDATE_USERNAME:
+      return Object.assign({}, state, {
+        username: action.username
+      });
+    case OPEN_SIGN_IN_MODAL:
+      return Object.assign({}, state, {
+        showSignInModal: true
+      });
+    case OPEN_SIGN_UP_MODAL:
+      return Object.assign({}, state, {
+        showSignUpModal: true
+      });
+    case HIDE_SIGN_IN_MODAL:
+      return Object.assign({}, state, {
+        showSignInModal: false
+      });
+    case HIDE_SIGN_UP_MODAL:
+      return Object.assign({}, state, {
+        showSignUpModal: false
       });
     case NUKE_CART:
       return Object.assign({}, state, {

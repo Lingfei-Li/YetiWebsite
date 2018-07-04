@@ -11,39 +11,40 @@ class PlaceOrderButtonContainer extends Component {
   constructor() {
     super();
     this.state = {
-      userEmail: "",
-      placeOrderButtonClicked: false,
-      placeOrderRequestOnTheFly: false
+      emailValidationEnforced: false,
+      placeOrderRequestOnTheFly: false,
+      showSignInSignUpModal: false
     }
   }
 
   updateUserEmailAddress(event) {
-    this.setState({
-      userEmail: event.target.value
-    });
+    const userEmail = event.target.value;
+    this.props.updateUsername(userEmail)
   }
 
-  isUserEmailAddressValid() {
+  getUserEmailAddressValidationState() {
     // Email validation regex
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(String(this.state.userEmail).toLowerCase())) return 'success';
-    if (this.state.placeOrderButtonClicked) return 'error';
+    if (re.test(String(this.props.username).toLowerCase())) return 'success';
+    if (this.state.emailValidationEnforced) return 'error';
     return null;
   }
 
-  placeOrder() {
-    this.setState({
-      placeOrderButtonClicked: true
-    });
-
+  validateEmailAddress() {
+    this.setState({emailValidationEnforced: true});
     // Check user email address (for guests)
-    if (!this.isUserEmailAddressValid()) {
+    if (!(this.getUserEmailAddressValidationState() === 'success')) {
       this.props.publishCartInfoBoxMessage(
         "Please provide a valid email address",
         "info"
       );
-      return;
+      return false;
     }
+    return true;
+  }
+
+  placeOrder() {
+    if (!this.validateEmailAddress()) return;
 
     // Check cart items
     if (this.props.cartItems === undefined || this.props.cartItems === null || Object.keys(this.props.cartItems).length <= 0) {
@@ -54,11 +55,12 @@ class PlaceOrderButtonContainer extends Component {
       return;
     }
 
-
     // Now place order...
+    console.log("Placing order...");
     const apiName = "ProjectYetiOrderService";
     const path = "/create";
     const cartItemsList = Object.keys(this.props.cartItems).map(itemId => this.props.cartItems[itemId]);
+    console.log("Overriding buyer ID to cslilingfei@outlook.com to prevent accidental");
     const myInit ={
       body: {
         orderItemList: cartItemsList,
@@ -100,8 +102,16 @@ class PlaceOrderButtonContainer extends Component {
     });
   }
 
-  showSignInModal() {
-    alert("This will be a sign in modal");
+  openSignUpModal() {
+    if (this.validateEmailAddress()) {
+      this.props.openSignUpModal();
+    }
+  }
+
+  openSignInModal() {
+    if (this.validateEmailAddress()) {
+      this.props.openSignInModal();
+    }
   }
 
   render() {
@@ -111,26 +121,47 @@ class PlaceOrderButtonContainer extends Component {
       return null;
     }
 
+    const componentsBeforeSignIn = (
+      <form>
+        <FormGroup
+          controlId="userEmail"
+          validationState={this.getUserEmailAddressValidationState()}
+        >
+          <ControlLabel>Your Email Address</ControlLabel>
+          <FormControl
+            type="text"
+            value={this.props.username}
+            placeholder="login@amazon.com"
+            onChange={event => this.updateUserEmailAddress(event)}
+          />
+          <FormControl.Feedback />
+          <HelpBlock>Note: you need a blue badge to pick up the tickets</HelpBlock>
+        </FormGroup>
+
+        <div className="placeOrderButtonContainer">
+          <div className="signInSignUpContainer">
+            <Button className="placeOrderButton" bsStyle="primary" onClick={() => this.openSignUpModal()}>Sign Up</Button>
+            <a className="placeOrderButton" onClick={() => this.openSignInModal()}>Sign In</a>
+          </div>
+
+          <div className="placeOrderButtonSeparator" />
+
+          <div className="placeOrderAsGuestContainer">
+            <Button className="placeOrderButton" bsStyle="default" onClick={() => this.placeOrder()}>Place Order As Guest</Button>
+          </div>
+        </div>
+      </form>
+    );
+    const componentsAfterSignIn = (
+      <div>
+        <p><strong>Payment instructions will be sent to {this.props.username}</strong></p>
+        <Button className="placeOrderButton" bsStyle="primary" onClick={() => this.placeOrder()}>Place Order</Button>
+      </div>
+    );
+
     return (
-      <div className="placeOrderButtonContainer">
-        <form>
-          <FormGroup
-            controlId="formBasicText"
-            validationState={this.isUserEmailAddressValid()}
-          >
-            <ControlLabel>Your Email Address</ControlLabel>
-            <FormControl
-              type="text"
-              value={this.state.userEmail}
-              placeholder="login@amazon.com"
-              onChange={event => this.updateUserEmailAddress(event)}
-            />
-            <FormControl.Feedback />
-            <HelpBlock>Note: you need a blue badge to pick up the tickets</HelpBlock>
-          </FormGroup>
-          <Button className="placeOrderButton" bsStyle="primary" onClick={() => this.showSignInModal()}>Sign In</Button>
-          <Button className="placeOrderButton" bsStyle="default" onClick={() => this.placeOrder()}>Place Order As Guest</Button>
-        </form>
+      <div className="placeOrderInputContainer">
+        {this.props.isSignedIn ? componentsAfterSignIn : componentsBeforeSignIn}
       </div>
     );
   }
@@ -139,6 +170,8 @@ class PlaceOrderButtonContainer extends Component {
 const mapStateToProps = state => {
   return {
     cartItems: state.cartItems,
+    isSignedIn: state.isSignedIn,
+    username: state.username
   }
 };
 

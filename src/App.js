@@ -7,6 +7,8 @@ import Header from "./pages/header/Header";
 import Cart from "./pages/cart/Cart";
 import Orders from "./pages/orders/Orders";
 import Account from "./pages/account/Account";
+import SignInModal from "./pages/components/SignInModal";
+import SignUpModal from "./pages/components/SignUpModal";
 
 class App extends Component {
 
@@ -48,6 +50,10 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
+
+        <SignInModal />
+        <SignUpModal />
+
         <div>
           <Route exact path="/" render={() => (
             <Redirect to="/tickets"/>

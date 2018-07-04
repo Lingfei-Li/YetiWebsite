@@ -14,7 +14,7 @@ class Ticket extends Component {
 
   selectQuantityForTicket(event) {
     this.setState(
-      {purchaseQuantity: parseInt(event)}
+      {purchaseQuantity: parseInt(event, 10)}
     )
   }
 
@@ -95,7 +95,6 @@ class Ticket extends Component {
         >
           Add To Cart
         </Button>
-
 
       </div>
     );
