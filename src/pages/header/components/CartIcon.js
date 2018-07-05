@@ -21,14 +21,14 @@ class CartIcon extends Component {
 
   render() {
     return (
-    <a href="/cart" className="cartIconLink">
+    <div>
       <FontAwesomeIcon
         icon={faShoppingCart}
         size="lg"
         color={this.isCartEmpty() ? null : "#00699D"}
       />
       { this.getCartItemsCountText() }
-    </a>
+    </div>
     );
   }
 }

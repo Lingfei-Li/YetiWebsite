@@ -7,6 +7,7 @@ import * as actions from "../../redux/actions";
 import CartIcon from "./components/CartIcon";
 import classNames from 'classnames';
 import { withRouter } from 'react-router';
+import {Nav, Navbar, NavItem} from "react-bootstrap";
 
 class Header extends Component {
 
@@ -29,41 +30,54 @@ class Header extends Component {
 
     const routeName = this.props.location.pathname;
 
-    const componentsAfterSignIn = (
-      <ul className="nav navbar-nav navbar-right">
-        <li className={classNames({'active': routeName === "/account"})}><a href="/account">{this.props.username}<span className="sr-only">(current)</span></a></li>
-        <li><a href="#" onClick={() => this.signOut()}>Sign Out<span className="sr-only">(current)</span></a></li>
-        <li className={classNames({'active': routeName === "/orders"})}><a href="/orders">Orders<span className="sr-only">(current)</span></a></li>
-        <li className={classNames({'active': routeName === "/cart"})}><CartIcon /></li>
-      </ul>
+    const rhsNavAfterSignIn = (
+      <Nav pullRight>
+        <NavItem eventKey={2} href="/account" active={routeName === "/account"}>
+          {this.props.username}
+        </NavItem>
+        <NavItem eventKey={3} onClick={() => this.signOut()}>
+          Sign out
+        </NavItem>
+        <NavItem eventKey={4} href="/orders" active={routeName === "/orders"}>
+          Orders
+        </NavItem>
+        <NavItem eventKey={5} href="/cart" active={routeName === "/cart"}>
+          <CartIcon />
+        </NavItem>
+      </Nav>
     );
 
-    const componentsBeforeSignIn = (
-      <ul className="nav navbar-nav navbar-right">
-        <li><a href="#" onClick={() => this.signIn()}>Sign In<span className="sr-only">(current)</span></a></li>
-        <li className={classNames({'active': routeName === "/cart"})}><CartIcon /></li>
-      </ul>
+    const rhsNavBeforeSignIn = (
+      <Nav pullRight>
+        <NavItem eventKey={3} onClick={() => this.signIn()}>
+          Sign in
+        </NavItem>
+        <NavItem eventKey={5} href="/cart" active={routeName === "/cart"}>
+          <CartIcon />
+        </NavItem>
+      </Nav>
     );
 
     return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="/home">
+      <Navbar fluid bsStyle="default">
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="/">
               <img alt="Yeti" src={himalaya} className="App-logo"/>
             </a>
-          </div>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
 
-          <div className="" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav">
-              <li className={classNames({'active': routeName === "/tickets"})}><a href="/tickets">Tickets<span className="sr-only">(current)</span></a></li>
-            </ul>
-            <ul className="nav navbar-nav navbar-right">
-              { this.props.isSignedIn ? componentsAfterSignIn : componentsBeforeSignIn }
-            </ul>
-          </div>
-        </div>
-      </nav>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem eventKey={1} href="/tickets" active={routeName === "/tickets"}>
+              Tickets
+            </NavItem>
+          </Nav>
+          { this.props.isSignedIn ? rhsNavAfterSignIn : rhsNavBeforeSignIn}
+        </Navbar.Collapse>
+      </Navbar>
     )
   }
 }
