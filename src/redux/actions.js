@@ -1,6 +1,7 @@
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const PUBLISH_CART_INFO_BOX_MESSAGE = 'PUBLISH_CART_INFO_BOX_MESSAGE';
 export const PUBLISH_TICKETS_INFO_BOX_MESSAGE = 'PUBLISH_TICKETS_INFO_BOX_MESSAGE';
+export const PUBLISH_ORDERS_INFO_BOX_MESSAGE = 'PUBLISH_ORDERS_INFO_BOX_MESSAGE';
 export const OPEN_PAGE = 'OPEN_PAGE';
 export const UPDATE_USERNAME = "UPDATE_USERNAME";
 export const OPEN_SIGN_IN_MODAL = "OPEN_SIGN_IN_MODAL";
@@ -30,6 +31,14 @@ export function publishCartInfoBoxMessage(msgContent, msgType) {
 export function publishTicketsInfoBoxMessage(msgContent, msgType) {
   return {
     type: PUBLISH_TICKETS_INFO_BOX_MESSAGE,
+    msgContent,
+    msgType
+  }
+}
+
+export function publishOrdersInfoBoxMessage(msgContent, msgType) {
+  return {
+    type: PUBLISH_ORDERS_INFO_BOX_MESSAGE,
     msgContent,
     msgType
   }
@@ -73,9 +82,10 @@ export function hideSignUpModal() {
   }
 }
 
-export function confirmSignIn() {
+export function confirmSignIn(apiJwtToken) {
   return {
-    type: CONFIRM_SIGN_IN
+    type: CONFIRM_SIGN_IN,
+    apiJwtToken
   }
 }
 

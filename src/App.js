@@ -1,6 +1,7 @@
 import React, {Component} from "react";
+import * as actions from "./redux/actions";
 import "./App.css";
-import Amplify from "aws-amplify";
+import Amplify, {Auth} from "aws-amplify";
 import Tickets from "./pages/tickets/Tickets";
 import {Redirect, Route} from "react-router-dom";
 import Header from "./pages/header/Header";
@@ -9,6 +10,8 @@ import Orders from "./pages/orders/Orders";
 import Account from "./pages/account/Account";
 import SignInModal from "./pages/components/SignInModal";
 import SignUpModal from "./pages/components/SignUpModal";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 class App extends Component {
 
@@ -43,6 +46,24 @@ class App extends Component {
         ]
       }
     });
+
+    this.initApiJwtToken()
+      .then(apiJwtToken => {
+        this.props.confirmSignIn(apiJwtToken);
+        this.props.hideSignUpModal();
+      }).catch(err => {
+        console.error("Error initiating API jwt token. Error: " + err);
+        this.props.signOut();
+      });
+  }
+
+  async initApiJwtToken() {
+    const data = await Auth.currentSession();
+    if (data.idToken !== undefined && data.idToken.jwtToken !== undefined) {
+      return data.idToken.jwtToken;
+    } else {
+      throw String("API Jwt Token successfully retrieved but is empty")
+    }
   }
 
 
@@ -68,4 +89,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(actions, dispatch);
+};
+
+export default connect( mapStateToProps, mapDispatchToProps)(App);
+

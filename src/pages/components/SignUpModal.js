@@ -48,12 +48,26 @@ class SignUpModal extends Component {
       })
   }
 
+  retrieveApiJwtToken() {
+    console.log("Retrieving API jwt token");
+    Auth.currentSession().then(data => {
+        if (data.idToken !== undefined && data.idToken.jwtToken !== undefined) {
+          this.props.confirmSignIn(data.idToken.jwtToken);
+          this.props.hideSignUpModal()
+        } else {
+          throw String("API jwtToken is empty");
+        }
+      })
+      .catch(err => {
+        throw err
+      })
+  }
+
   confirmSignUp() {
     Auth.confirmSignUp(this.props.username, this.state.verificationCode)
       .then(data => {
         console.log("Confirm sign up success: " + JSON.stringify(data, null, 2));
-        this.props.confirmSignIn();
-        this.props.hideSignUpModal()
+        this.retrieveApiJwtToken()
       })
       .catch(err => {
         console.log("Confirm Sign Up error");

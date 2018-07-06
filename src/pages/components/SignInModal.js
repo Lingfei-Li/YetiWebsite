@@ -21,16 +21,32 @@ class SignInModal extends Component {
     });
   }
 
-  signIn() {
-    Auth.signIn(this.props.username, this.state.password)
-      .then(data => {
-        console.log("Sign in successful. Data: " + JSON.stringify(data, null, 2));
-        this.props.confirmSignIn();
-        this.props.hideSignInModal();
+  async retrieveApiJwtToken() {
+    console.log("Retrieving API jwt token");
+    const data = await Auth.currentSession();
+    if (data.idToken === undefined || data.idToken.jwtToken === undefined) {
+      throw String("API jwtToken is empty");
+    }
+    return data.idToken.jwtToken;
+  }
+
+  async signIn() {
+    try {
+      await Auth.signIn(this.props.username, this.state.password);
+
+      const apiJwtToken = await this.retrieveApiJwtToken();
+
+      this.props.confirmSignIn(apiJwtToken);
+      this.props.hideSignInModal();
+
+      // window.location.reload();
+    } catch(err) {
+      console.log("Sign in failed. err: " + JSON.stringify(err, null, 2));
+      this.setState({
+        modalInfoBoxType: "danger",
+        modalInfoBoxContent: err
       })
-      .catch(err => {
-        console.log("Sign in failed. err: " + JSON.stringify(err, null, 2))
-      })
+    }
   }
 
   render() {

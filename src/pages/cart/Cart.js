@@ -55,7 +55,7 @@ class Cart extends Component {
         {placeOrderButtonContainer}
 
         <div>
-          <Button bsStyle="danger" onClick={() => this.emptyCart()}>Empty Cart</Button>
+          <Button bsStyle="danger" onClick={() => this.emptyCart()}>Debug Only - Empty Cart</Button>
         </div>
       </div>
     );

@@ -1,12 +1,13 @@
 import {
-  ADD_TO_CART, PUBLISH_CART_INFO_BOX_MESSAGE, PUBLISH_TICKETS_INFO_BOX_MESSAGE, OPEN_PAGE, OPEN_SIGN_IN_MODAL, OPEN_SIGN_UP_MODAL, HIDE_SIGN_IN_MODAL, HIDE_SIGN_UP_MODAL,
-  UPDATE_USERNAME, NUKE_CART, NUKE_REDUX_STORE, CONFIRM_SIGN_IN, SIGN_OUT
+  ADD_TO_CART, PUBLISH_CART_INFO_BOX_MESSAGE, PUBLISH_TICKETS_INFO_BOX_MESSAGE, PUBLISH_ORDERS_INFO_BOX_MESSAGE, OPEN_PAGE, OPEN_SIGN_IN_MODAL, OPEN_SIGN_UP_MODAL,
+  HIDE_SIGN_IN_MODAL, HIDE_SIGN_UP_MODAL, UPDATE_USERNAME, NUKE_CART, NUKE_REDUX_STORE, CONFIRM_SIGN_IN, SIGN_OUT
 } from './actions'
 
 const initialState = {
   isSignedIn: false,
   username: "",
   cartItems: {},
+  apiJwtToken: null,
   activePage: null,
   cartInfoBoxMessageContent: null,
   cartInfoBoxMessageType: "info",
@@ -50,6 +51,11 @@ const initialReducer = (state = initialState, action) => {
         ticketsInfoBoxMessageContent: action.msgContent,
         ticketsInfoBoxMessageType: action.msgType
       });
+    case PUBLISH_ORDERS_INFO_BOX_MESSAGE:
+      return Object.assign({}, state, {
+        ordersInfoBoxMessageContent: action.msgContent,
+        ordersInfoBoxMessageType: action.msgType
+      });
     case OPEN_PAGE:
       return Object.assign({}, state, {
         activePage: action.pageName
@@ -61,7 +67,8 @@ const initialReducer = (state = initialState, action) => {
       });
     case CONFIRM_SIGN_IN:
       return Object.assign({}, state, {
-        isSignedIn: true
+        isSignedIn: true,
+        apiJwtToken: action.apiJwtToken
       });
     case UPDATE_USERNAME:
       return Object.assign({}, state, {

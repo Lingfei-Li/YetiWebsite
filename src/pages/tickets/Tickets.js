@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./style.css";
-import {Auth, API} from "aws-amplify";
+import {API} from "aws-amplify";
 import TicketList from "./components/TicketList";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
@@ -30,7 +30,6 @@ class Tickets extends Component {
     const myInit ={
       body: {}
     };
-    Auth.pickupCredentials();
     API.post(apiName, path, myInit)
       .then(data => {
         console.log("Tickets: " + JSON.stringify(data.tickets, null, 2));

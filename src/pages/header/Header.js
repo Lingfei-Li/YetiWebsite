@@ -5,9 +5,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import CartIcon from "./components/CartIcon";
-import classNames from 'classnames';
-import { withRouter } from 'react-router';
-import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {withRouter} from "react-router";
+import {Button, Nav, Navbar, NavItem, OverlayTrigger, Popover} from "react-bootstrap";
 
 class Header extends Component {
 
@@ -28,22 +27,35 @@ class Header extends Component {
 
   render() {
 
+    const popoverClick = (
+      <Popover id="popover-trigger-click" title="Welcome!">
+        <div>
+          <Button bsStyle="default" onClick={() => this.signOut()}>Sign out</Button>
+        </div>
+      </Popover>
+    );
+
+
     const routeName = this.props.location.pathname;
 
     const rhsNavAfterSignIn = (
       <Nav pullRight>
-        <NavItem eventKey={2} href="/account" active={routeName === "/account"}>
-          {this.props.username}
+        <NavItem eventKey={2} onClick={() => this.refs.usernamePopover.show()}>
+          <OverlayTrigger ref="usernamePopover" rootClose={true} trigger={null} placement="bottom" overlay={popoverClick}>
+            <span>
+              {this.props.username}
+            </span>
+          </OverlayTrigger>
         </NavItem>
-        <NavItem eventKey={3} onClick={() => this.signOut()}>
-          Sign out
-        </NavItem>
+
         <NavItem eventKey={4} href="/orders" active={routeName === "/orders"}>
           Orders
         </NavItem>
+
         <NavItem eventKey={5} href="/cart" active={routeName === "/cart"}>
           <CartIcon />
         </NavItem>
+
       </Nav>
     );
 
